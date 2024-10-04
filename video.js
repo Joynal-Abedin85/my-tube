@@ -118,12 +118,31 @@ const displayvideos = (videos) => {
                         ${video.authors[0].verified == true ? '<img class="h-5 " src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&format=png" >' : ""}
                     </div>
                     <P>${video.others.views} views</P>
+                    <button onclick="videodetails('${video.video_id}')" class="bg-lime-400 font-bold p-2 rounded-lg hover:bg-lime-500 active:bg-lime-100 duration-700">details</button>
                 </div>
             </div>
         
         `;
         videoscontainer.append(card)
     })
+}
+const videodetails = async (cardid) =>{
+    console.log(cardid);
+    const uri =`https://openapi.programming-hero.com/api/phero-tube/video/${cardid}`
+    const res = await fetch(uri)
+    const data = await res.json()
+    displaydetails(data.video)
+}
+const displaydetails = (video)=>{
+    
+    const detailscontainer = document.getElementById("modals")
+
+    detailscontainer.innerHTML = `
+        <img src=${video.thumbnail}/>
+        <p>${video.description}</p>
+    `
+
+    document.getElementById("my_modal_4").showModal()
 }
 
 loadcatagories()
